@@ -1,0 +1,7 @@
+# DoH enable
+
+/tool fetch url=https://cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
+/certificate import file-name=DigiCertGlobalRootCA.crt.pem passphrase=""
+/ip dns set use-doh-server=https://cloudflare-dns.com/dns-query
+/ip dns set verify-doh-cert=yes
+/ip dns set servers="1.1.1.1, 8.8.8.8"
