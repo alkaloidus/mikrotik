@@ -9,3 +9,15 @@ add address=1.1.1.1 name=cloudflare-dns.com
 # Disable dynamic dns
 
 /ip dhcp-client set use-peer-dns=no
+
+
+# BGP config
+
+/routing bgp template
+add as=CHOOSE_YOUR_AS_NUMBER disabled=no hold-time=4m input.filter=bgp_in .ignore-as-path-len=yes keepalive-time=1m multihop=yes name=antifilter routing-table=main
+
+/routing bgp connection
+add disabled=no hold-time=4m input.filter=bgp_in .ignore-as-path-len=yes keepalive-time=1m local.address=YOUR_LOCAL_IP .role=ebgp multihop=yes name=antifilter_bgp remote.address=45.154.73.71/32 .as=65432 router-id=YOUR_PUBLIC_IP routing-table=main templates=antifilter
+
+/routing filter rule
+add chain=bgp_in disabled=no rule="set gw YOUR_VPN_GW_NAME; accept;"
